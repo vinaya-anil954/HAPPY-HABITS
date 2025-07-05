@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Habits - Your Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .animate-fade-in-down { animation: fadeInDown 0.5s ease-out forwards; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-pulse-light { animation: pulse-light 2s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        @keyframes pulse-light { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 bg-gradient-to-br from-blue-50 to-purple-100 text-gray-800">
+
+    <div id="messageBox" class="fixed top-4 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg z-50 hidden animate-fade-in-down"></div>
+
+    <div class="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-4 border-purple-200 flex flex-col">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-purple-800 text-center flex-grow">
+                Happy Habits
+            </h1>
+            <button onclick="window.location.href='login.html'" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                Logout
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Main Content -->
+            <div class="lg:col-span-2 flex flex-col space-y-8">
+                <!-- Current Time & Date -->
+                <div class="text-center bg-blue-50 p-6 rounded-2xl shadow-md border border-blue-200">
+                    <p id="currentTime" class="text-6xl md:text-8xl font-black text-blue-800 mb-2"></p>
+                    <p id="currentDate" class="text-2xl md:text-3xl text-gray-600 font-medium"></p>
+                </div>
+
+                <!-- Active Reminder Display -->
+                <div class="bg-purple-100 p-8 rounded-3xl shadow-xl border-4 border-purple-400 w-full text-center">
+                    <div id="activeReminderDisplay">
+                        <p class="text-4xl md:text-5xl font-bold text-gray-700">
+                            No active reminders.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Call Options -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button id="callCaregiverBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 text-2xl md:text-3xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        Call Caregiver
+                    </button>
+                    <button id="videoCallCaregiverBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 text-2xl md:text-3xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 10 22 14 17 18"></polyline><rect x="3" y="6" width="14" height="12" rx="2" ry="2"></rect></svg>
+                        Video Call
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Navigation & Rating -->
+            <div class="lg:col-span-1 flex flex-col space-y-8">
+                <!-- Daily Diary & Schedule -->
+                <div class="bg-yellow-50 p-6 rounded-2xl shadow-md border border-yellow-200">
+                    <h3 class="text-2xl font-bold text-yellow-800 mb-4">Your Day</h3>
+                    <button onclick="window.location.href='diary.html'" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 rounded-full shadow-md mb-4 flex items-center justify-center text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2V5"></path><path d="M16 2V5"></path><path d="M21 2V8"></path><path d="M3 2V8"></path><path d="M3 15V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"></path><path d="M3 15h18"></path><path d="M7 12h0"></path><path d="M12 12h0"></path><path d="M17 12h0"></path><path d="M7 17h0"></path><path d="M12 17h0"></path><path d="M17 17h0"></path></svg>
+                        Daily Diary
+                    </button>
+                    <button onclick="window.location.href='schedule.html'" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-full shadow-md flex items-center justify-center text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+                        My Schedule
+                    </button>
+                </div>
+
+                <!-- Quick Navigation -->
+                <div class="bg-green-50 p-6 rounded-2xl shadow-md border border-green-200">
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">Quick Links</h3>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button onclick="window.location.href='contacts.html'" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-full shadow-md flex items-center justify-center text-xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"></path><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><circle cx="12" cy="10" r="3"></circle></svg>
+                            Contacts
+                        </button>
+                        <button onclick="window.location.href='games.html'" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-full shadow-md flex items-center justify-center text-xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 8V2.8L18.8 9 12 15.2V10Z"></path></svg>
+                            Games
+                        </button>
+                        <button onclick="window.location.href='profile.html'" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-full shadow-md flex items-center justify-center text-xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            My Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rate Your Day (Mini-Feature) -->
+                <div class="bg-pink-50 p-6 rounded-2xl shadow-md border border-pink-200 text-center">
+                    <h3 class="text-2xl font-bold text-pink-800 mb-4">How was your day?</h3>
+                    <button onclick="window.location.href='rating.html'" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-4 rounded-full shadow-md flex items-center justify-center text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2V5a3 3 0 0 0-3-3Z"></path><path d="M4 14.5a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5V14a.5.5 0 0 0-.5-.5H4.5a.5.5 0 0 0-.5.5v.5Z"></path><path d="M12 14v8"></path><path d="M15 18h-6"></path></svg>
+                        Rate Your Day
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables (provided by the environment)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Global state for current user
+        let currentUserId = null;
+        let allReminders = [];
+        let currentActiveReminder = null; // Stores the reminder currently being displayed/spoken
+
+        // --- DOM Elements ---
+        const messageBox = document.getElementById('messageBox');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const currentDateDisplay = document.getElementById('currentDate');
+        const activeReminderDisplay = document.getElementById('activeReminderDisplay');
+        const callCaregiverBtn = document.getElementById('callCaregiverBtn');
+        const videoCallCaregiverBtn = document.getElementById('videoCallCaregiverBtn');
+        const userIdDisplay = document.getElementById('userIdDisplay'); // Assuming this exists for debugging/info
+
+        // --- Helper Functions ---
+        function showMessage(msg) {
+            if (messageBox) {
+                if (messageBox.timeoutId) clearTimeout(messageBox.timeoutId);
+                messageBox.textContent = msg;
+                messageBox.classList.remove('hidden');
+                messageBox.timeoutId = setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, 5000);
+            } else {
+                console.warn("Message box element not found.");
+            }
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.warn('SpeechSynthesis API not supported in this browser.');
+            }
+        }
+
+        async function ensureAuthAndUserId() {
+            return new Promise(resolve => {
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        if (userIdDisplay) userIdDisplay.textContent = user.uid;
+                        resolve(user.uid);
+                    } else {
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                            currentUserId = auth.currentUser.uid;
+                            if (userIdDisplay) userIdDisplay.textContent = currentUserId;
+                            resolve(currentUserId);
+                        } catch (error) {
+                            console.error("Authentication failed:", error);
+                            showMessage(`Authentication failed: ${error.message}. Please try again.`);
+                            window.location.href = 'login.html'; // Redirect to login
+                            resolve(null);
+                        }
+                    }
+                });
+            });
+        }
+
+        // --- Core Logic ---
+
+        // Update current time and date display
+        function updateDateTime() {
+            const now = new Date();
+            currentTimeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            currentDateDisplay.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // Reminder Timer Logic
+        async function setupReminderChecker() {
+            await ensureAuthAndUserId(); // Ensure user is authenticated before setting up listener
+
+            if (!currentUserId) return; // Exit if auth failed
+
+            const remindersCollectionRef = collection(db, `artifacts/${appId}/public/data/reminders`);
+            onSnapshot(remindersCollectionRef, (snapshot) => {
+                allReminders = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                // Sort client-side by time
+                allReminders.sort((a, b) => {
+                    const timeA = a.time ? a.time.split(':').map(Number) : [0, 0];
+                    const timeB = b.time ? b.time.split(':').map(Number) : [0, 0];
+                    if (timeA[0] !== timeB[0]) return timeA[0] - timeB[0];
+                    return timeA[1] - timeB[1];
+                });
+                console.log("Reminders updated:", allReminders);
+            }, (error) => {
+                console.error("Error fetching reminders:", error);
+                showMessage(`Error fetching reminders: ${error.message}`);
+            });
+
+            setInterval(() => {
+                const now = new Date();
+                const currentHour = now.getHours();
+                const currentMinute = now.getMinutes();
+
+                const dueReminder = allReminders.find(r => {
+                    if (!r.time) return false;
+                    const [reminderHour, reminderMinute] = r.time.split(':').map(Number);
+                    return reminderHour === currentHour && reminderMinute === currentMinute && !r.acknowledged;
+                });
+
+                if (dueReminder && (!currentActiveReminder || currentActiveReminder.id !== dueReminder.id)) {
+                    currentActiveReminder = dueReminder;
+                    // Display active reminder prominently
+                    activeReminderDisplay.innerHTML = `
+                        <p class="text-5xl md:text-6xl font-extrabold text-blue-800 mb-6 animate-pulse-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-16 w-16 mr-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg> ${currentActiveReminder.text}
+                        </p>
+                        <button id="acknowledgeReminderBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-6 px-12 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 text-3xl md:text-4xl flex items-center justify-center mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mr-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> I've Done This
+                        </button>
+                    `;
+                    speak(currentActiveReminder.text);
+                } else if (!dueReminder && currentActiveReminder) {
+                    // If no reminder is due, clear the display
+                    currentActiveReminder = null;
+                    activeReminderDisplay.innerHTML = `
+                        <p class="text-4xl md:text-5xl font-bold text-gray-700">
+                            No active reminders.
+                        </p>
+                    `;
+                }
+            }, 1000); // Check every second
+        }
+
+        // --- Event Listeners ---
+        activeReminderDisplay.addEventListener('click', async (e) => {
+            if (e.target.id === 'acknowledgeReminderBtn' && currentActiveReminder) {
+                try {
+                    const reminderRef = doc(db, `artifacts/${appId}/public/data/reminders`, currentActiveReminder.id);
+                    await setDoc(reminderRef, { acknowledged: true }, { merge: true });
+                    currentActiveReminder = null; // Clear the current reminder from display
+                    activeReminderDisplay.innerHTML = `
+                        <p class="text-4xl md:text-5xl font-bold text-gray-700">
+                            No active reminders.
+                        </p>
+                    `;
+                    showMessage('Reminder acknowledged! ✨');
+                    speak('Reminder acknowledged.');
+                } catch (error) {
+                    console.error("Error acknowledging reminder:", error);
+                    showMessage(`Error acknowledging reminder: ${error.message}`);
+                }
+            }
+        });
+
+        callCaregiverBtn.addEventListener('click', () => {
+            showMessage('Initiating call to caregiver... (Simulated)');
+            speak('Calling caregiver.');
+        });
+
+        videoCallCaregiverBtn.addEventListener('click', () => {
+            showMessage('Initiating video call to caregiver... (Simulated)');
+            speak('Initiating video call.');
+        });
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDateTime();
+            setInterval(updateDateTime, 1000); // Update every second
+            setupReminderChecker(); // Start reminder logic
+        });
+    </script>
+</body>
+</html>
